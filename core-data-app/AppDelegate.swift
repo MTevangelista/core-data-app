@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  core-data-app
-//
-//  Created by matheus.evangelista on 19/05/21.
-//
-
 import UIKit
 import CoreData
 
