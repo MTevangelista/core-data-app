@@ -19,9 +19,9 @@ class ViewController: UIViewController {
     private func saveProduct(_ context: NSManagedObjectContext) {
         let product = NSEntityDescription.insertNewObject(forEntityName: "Product", into: context)
         
-        product.setValue("MacBook Pro 15", forKey: "bio")
-        product.setValue("White", forKey: "color")
-        product.setValue(1999.5, forKey: "price")
+        product.setValue("acer aspire 15", forKey: "bio")
+        product.setValue("Branco", forKey: "color")
+        product.setValue(159, forKey: "price")
         
         do {
             try context.save()
@@ -32,7 +32,20 @@ class ViewController: UIViewController {
     }
     
     private func getAllProducts(_ context: NSManagedObjectContext) {
+        // create request
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Product")
+        
+        // sort A-Z OR Z-A
+        let sortByBio = NSSortDescriptor(key: "bio", ascending: true)
+        
+        // Apply filters
+        //let predicate = NSPredicate(format: "bio == %@", "Acer")
+        //let predicate = NSPredicate(format: "bio contains [c] %@", "acer")
+        let predicate = NSPredicate(format: "bio beginswith [c] %@", "ace")
+        
+        // Apply created filters to the request
+        request.sortDescriptors = [sortByBio]
+        request.predicate = predicate
         
         do {
             let products = try context.fetch(request) as! [NSManagedObject]
@@ -44,7 +57,7 @@ class ViewController: UIViewController {
                         let productColor = product.value(forKey: "color"),
                         let productPrice = product.value(forKey: "price")
                     else { return }
-                    print("Nome: \(productBio) / Cor: \(productColor) / Preço: \(productPrice)")
+                    print("Nome: \(productBio) | Cor: \(productColor) | Preço: \(productPrice)")
                 }
             }
         } catch {
