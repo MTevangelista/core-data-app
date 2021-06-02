@@ -41,11 +41,15 @@ class ViewController: UIViewController {
         // Apply filters
         //let predicate = NSPredicate(format: "bio == %@", "Acer")
         //let predicate = NSPredicate(format: "bio contains [c] %@", "acer")
-        let predicate = NSPredicate(format: "bio beginswith [c] %@", "ace")
+        //let predicate = NSPredicate(format: "bio beginswith [c] %@", "ace")
+        
+        let bioFilter = NSPredicate(format: "bio contains [c] %@", "pho")
+        let priceFilter = NSPredicate(format: "price >= %@", "89.99")
+        let matchedFilters = NSCompoundPredicate(andPredicateWithSubpredicates: [bioFilter, priceFilter])
         
         // Apply created filters to the request
         request.sortDescriptors = [sortByBio]
-        request.predicate = predicate
+        request.predicate = matchedFilters
         
         do {
             let products = try context.fetch(request) as! [NSManagedObject]
