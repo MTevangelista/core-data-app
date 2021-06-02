@@ -43,13 +43,15 @@ class ViewController: UIViewController {
         //let predicate = NSPredicate(format: "bio contains [c] %@", "acer")
         //let predicate = NSPredicate(format: "bio beginswith [c] %@", "ace")
         
-        let bioFilter = NSPredicate(format: "bio contains [c] %@", "pho")
-        let priceFilter = NSPredicate(format: "price >= %@", "89.99")
-        let matchedFilters = NSCompoundPredicate(andPredicateWithSubpredicates: [bioFilter, priceFilter])
+        //let bioFilter = NSPredicate(format: "bio contains [c] %@", "pho")
+        //let priceFilter = NSPredicate(format: "price >= %@", "89.99")
+        //let matchedFilters = NSCompoundPredicate(andPredicateWithSubpredicates: [bioFilter, priceFilter])
+        
+        let predicate = NSPredicate(format: "bio == %@", "Acer Aspire 15")
         
         // Apply created filters to the request
         request.sortDescriptors = [sortByBio]
-        request.predicate = matchedFilters
+        request.predicate = predicate
         
         do {
             let products = try context.fetch(request) as! [NSManagedObject]
@@ -62,10 +64,19 @@ class ViewController: UIViewController {
                         let productPrice = product.value(forKey: "price")
                     else { return }
                     print("Nome: \(productBio) | Cor: \(productColor) | Preço: \(productPrice)")
+                    
+                    // Updatae Product
+//                    product.setValue(220.50, forKey: "price")
+//                    do {
+//                        try context.save()
+//                        print("Sucesso ao atualizar os produtos")
+//                    } catch {
+//                        print("Erro ao atualizar o produto: \(error.localizedDescription)")
+//                    }
                 }
             }
         } catch {
-            print("Erro ao recuperar os usuários")
+            print("Erro ao recuperar os produtos")
         }
     }
     
