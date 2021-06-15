@@ -11,7 +11,7 @@
         <!--Notas diárias-->
         <scene sceneID="nhG-rl-Jhc">
             <objects>
-                <tableViewController id="aDH-jH-vPn" sceneMemberID="viewController">
+                <tableViewController id="aDH-jH-vPn" customClass="ListAnotationTableViewController" customModule="core_data_app" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ijm-Xp-Hrs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,7 +47,7 @@
         <!--Adicionar-->
         <scene sceneID="VM1-L7-iru">
             <objects>
-                <viewController id="YVV-h4-2h7" sceneMemberID="viewController">
+                <viewController id="YVV-h4-2h7" customClass="AnotationViewController" customModule="core_data_app" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ebq-nP-AuO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -73,8 +73,14 @@
                     <navigationItem key="navigationItem" title="Adicionar" id="1oM-jS-ioi">
                         <barButtonItem key="rightBarButtonItem" title="Salvar" id="sFf-l7-7cg">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="btnSave:" destination="YVV-h4-2h7" id="he7-yr-Tp5"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="textView" destination="gda-T1-EXE" id="ZEP-Cr-3gH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="609-ec-CUk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
