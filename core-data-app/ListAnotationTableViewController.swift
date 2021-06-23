@@ -1,45 +1,66 @@
-//
-//  ListAnotationTableViewController.swift
-//  core-data-app
-//
-//  Created by matheus.evangelista on 02/06/21.
-//
-
 import UIKit
+import CoreData
 
 class ListAnotationTableViewController: UITableViewController {
-
+    
+    var context: NSManagedObjectContext!
+    var anotations: [NSManagedObject] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        context = appDelegate.persistentContainer.viewContext
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.getAllAnotations()
+    }
+    
+    func getAllAnotations() {
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Anotation")
+        
+        do {
+            anotations = try context.fetch(request) as! [NSManagedObject]
+            self.tableView.reloadData()
+        } catch let erro {
+            print("Erro ao listar anotações: \(erro.localizedDescription)")
+        }
+    }
+    
+}
 
-    // MARK: - Table view data source
-
+// MARK: - Table view data source
+extension ListAnotationTableViewController {
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return anotations.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dailyNotesCell", for: indexPath)
 
         // Configure the cell...
-
+        let anotation = self.anotations[indexPath.row]
+        guard let recoveredText = anotation.value(forKey: "text") as? String else { return cell }
+        let recoveredDate = anotation.value(forKey: "data")
+        
+        // format date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm"
+        let newDate = dateFormatter.string(from: recoveredDate as! Date)
+        
+        cell.textLabel?.text = recoveredText
+        cell.detailTextLabel?.text = String(describing: newDate)
+        
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -57,7 +78,7 @@ class ListAnotationTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 
@@ -85,5 +106,5 @@ class ListAnotationTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
